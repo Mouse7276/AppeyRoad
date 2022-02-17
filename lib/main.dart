@@ -1,245 +1,119 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'dart:math';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  static const String _title = 'HomeScreen';
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      scrollBehavior: AppScrollBehavior(),
-      title: _title,
-      home: HomeScreen(),
-      debugShowCheckedModeBanner: false,
+      home: const HomePage(),
     );
   }
 }
 
-final PageController pageController = PageController(
-  initialPage: 0,
-);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
-class AppScrollBehavior extends MaterialScrollBehavior {
   @override
-  Set<PointerDeviceKind> get dragDevices => {
-        PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
-      };
+  _HomePageState createState() => _HomePageState();
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
+class _HomePageState extends State<HomePage> {
+  // List generated = [];
+  // int numlimit = 100;
+  // void Generate() {
+  //   setState(() {
+  //     generated.add(Random().nextInt(numlimit) + 1);
+  //   });
+  // }
+  int Limit = 0;
+  int Num_int = 0;
+  String show = '';
+  final _textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: pageController,
-        children: <Widget>[
-          HomeScreen1(),
-          HomeScreen2(),
-          HomeScreen3(),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                  child: Container(
+                child: Center(
+                  child: Text(show),
+                ),
+              )),
+              TextField(
+                controller: _textController,
+                decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          _textController.clear();
+                        },
+                        icon: Icon(Icons.clear)),
+                    hintText: "Limit",
+                    border: OutlineInputBorder()),
+              ),
+              MaterialButton(
+                  onPressed: () {
+                    setState(() {
+                      Limit = int.parse(_textController.text);
+                      Num_int = Random().nextInt(Limit) + 1;
+                      show = Num_int.toString();
+                    });
+                  },
+                  color: Colors.blue,
+                  child: Text("Generate")),
+            ]),
       ),
     );
-  }
-}
-
-class HomeScreen1 extends StatefulWidget {
-  const HomeScreen1({Key? key}) : super(key: key);
-
-  @override
-  _HomeScreen1State createState() => _HomeScreen1State();
-}
-
-class _HomeScreen1State extends State<HomeScreen1> {
-  var _boolfirst = false;
-  @override
-  Widget build(BuildContext context) {
-    return Scrollbar(
-      isAlwaysShown: true,
-      child: ListView(
-        padding: const EdgeInsets.all(8),
-        children: <Widget>[
-          CheckboxListTile(
-            value: _boolfirst,
-            title: Text('First Checkbox'),
-            subtitle: Text('this is first checkbox'),
-            activeColor: Colors.green,
-            checkColor: Colors.black,
-            controlAffinity: ListTileControlAffinity.platform,
-            secondary: Container(
-              height: 100,
-              child: Icon(Icons.hourglass_empty),
-            ),
-            onChanged: (value) {
-              setState(() {
-                _boolfirst = value!;
-              });
-            },
-          ),
-          Container(
-            height: 300,
-            color: Colors.amber[600],
-            child: const Center(child: Text('A')),
-          ),
-          Container(
-            height: 300,
-            color: Colors.amber[500],
-            child: const Center(child: Text('B')),
-          ),
-          Container(
-            height: 300,
-            color: Colors.amber[400],
-            child: const Center(child: Text('C')),
-          ),
-          Container(
-            height: 300,
-            color: Colors.amber[300],
-            child: const Center(child: Text('D')),
-          ),
-          Container(
-            height: 300,
-            color: Colors.amber[200],
-            child: const Center(child: Text('E')),
-          ),
-          Container(
-            height: 300,
-            color: Colors.amber[100],
-            child: const Center(child: Text('F')),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class HomeScreen2 extends StatefulWidget {
-  const HomeScreen2({Key? key}) : super(key: key);
-
-  @override
-  _HomeScreen2State createState() => _HomeScreen2State();
-}
-
-class _HomeScreen2State extends State<HomeScreen2> {
-  @override
-  Widget build(BuildContext context) {
-    return Scrollbar(
-      isAlwaysShown: true,
-      child: GridView.count(
-        crossAxisCount: 2,
-        mainAxisSpacing: 15,
-        crossAxisSpacing: 15,
-        children: [
-          Container(
-            height: 60,
-            color: Colors.amber[600],
-            child: const Center(child: Text('A')),
-          ),
-          Container(
-            height: 60,
-            color: Colors.amber[500],
-            child: const Center(child: Text('B')),
-          ),
-          Container(
-            height: 60,
-            color: Colors.amber[400],
-            child: const Center(child: Text('C')),
-          ),
-          Container(
-            height: 60,
-            color: Colors.amber[300],
-            child: const Center(child: Text('D')),
-          ),
-          Container(
-            height: 60,
-            color: Colors.amber[200],
-            child: const Center(child: Text('E')),
-          ),
-          Container(
-            height: 60,
-            color: Colors.amber[100],
-            child: const Center(child: Text('F')),
-          ),
-        ],
-      ),
-    );
-  }
-
-  launch(String s) {}
-}
-
-class HomeScreen3 extends StatefulWidget {
-  const HomeScreen3({Key? key}) : super(key: key);
-
-  @override
-  _HomeScreen3State createState() => _HomeScreen3State();
-}
-
-class _HomeScreen3State extends State<HomeScreen3> {
-  @override
-  Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: <Widget>[
-        SliverAppBar(
-          pinned: true,
-          expandedHeight: 150,
-          flexibleSpace: FlexibleSpaceBar(
-            title: Text("New Appbar", style: TextStyle(color: Colors.black)),
-            background: Image.asset(
-              'images/background.jpg',
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        SliverFillRemaining(
-          child: Scrollbar(
-            isAlwaysShown: true,
-            child: GridView.count(
-              crossAxisCount: 2,
-              mainAxisSpacing: 15,
-              crossAxisSpacing: 15,
-              children: [
-                Container(
-                  height: 60,
-                  color: Colors.amber[600],
-                  child: const Center(child: Text('A')),
-                ),
-                Container(
-                  height: 60,
-                  color: Colors.amber[500],
-                  child: const Center(child: Text('B')),
-                ),
-                Container(
-                  height: 60,
-                  color: Colors.amber[400],
-                  child: const Center(child: Text('C')),
-                ),
-                Container(
-                  height: 60,
-                  color: Colors.amber[300],
-                  child: const Center(child: Text('D')),
-                ),
-                Container(
-                  height: 60,
-                  color: Colors.amber[200],
-                  child: const Center(child: Text('E')),
-                ),
-                Container(
-                  height: 60,
-                  color: Colors.amber[100],
-                  child: const Center(child: Text('F')),
-                ),
-              ],
-            ),
-          ),
-        )
-      ],
-    );
+    // return Scaffold(
+    //   appBar: AppBar(title: Text("Random int Generator")),
+    //   body: ListView.separated(
+    //     padding: const EdgeInsets.all(7),
+    //     itemCount: generated.length,
+    //     itemBuilder: (BuildContext context, int index) {
+    //       if (numlimit == -1) {
+    //         return Container(
+    //           child: TextField(
+    //             controller: _textController,
+    //             decoration: InputDecoration(
+    //                 hintText: "Limit",
+    //                 suffixIcon: IconButton(
+    //                   icon: Icon(Icons.save),
+    //                   onPressed: () {
+    //                     numlimit = int.parse(_textController.text);
+    //                   },
+    //                 )),
+    //           ),
+    //         );
+    //       }
+    //       if (numlimit != -1) {
+    //         return Container(
+    //           child: Text(generated[index].toString()),
+    //         );
+    //       }
+    //       print(generated);
+    //       return Container();
+    //     },
+    //     separatorBuilder: (context, index) {
+    //       return Divider();
+    //     },
+    //   ),
+    //   floatingActionButton: FloatingActionButton(
+    //     onPressed: Generate,
+    //     tooltip: "Generate",
+    //     child: Icon(Icons.plus_one),
+    //   ),
+    // );
   }
 }
